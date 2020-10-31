@@ -5,8 +5,11 @@
  */
 package servlets;
 
+import controllers.GestorDB;
+import dtos.DTOListadoProgramasFinales;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Emiliano
  */
-@WebServlet(name = "index", urlPatterns = {"/index"})
-public class index extends HttpServlet {
-
+@WebServlet(name = "Principal", urlPatterns = {"/Principal"})
+public class Principal extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,6 +35,10 @@ public class index extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        GestorDB gestor = new GestorDB();
+        ArrayList<DTOListadoProgramasFinales> lista = gestor.obtenerProgramasFinales();
+        request.setAttribute("lista", lista);
+        
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
         rd.forward(request, response);
     }
