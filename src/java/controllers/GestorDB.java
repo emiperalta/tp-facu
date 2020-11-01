@@ -8,21 +8,22 @@ import java.util.logging.Logger;
 import models.*;
 
 public class GestorDB {
-    private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";    
+
+    private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";
     private String USER = "sa";
     private String PASS = "password";
-    
+
     public ArrayList<DTOListadoProgramasFinales> obtenerProgramasFinales() {
         ArrayList<DTOListadoProgramasFinales> lista = new ArrayList<>();
         Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(CONN,USER,PASS);
-            
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno'\n" +
-                                            "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n" +
-                                            "	JOIN Cursos c ON pf.idCurso = c.idCurso");
+            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno'\n"
+                    + "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n"
+                    + "	JOIN Cursos c ON pf.idCurso = c.idCurso");
 
             while (rs.next()) {
                 String nombreProg = rs.getString("nombrePrograma");
@@ -30,8 +31,11 @@ public class GestorDB {
                 int descargas = rs.getInt("descargas");
                 int isDisponible = rs.getInt("disponible");
                 boolean disponible;
-                if (isDisponible == 1) disponible = true;
-                else disponible = false;
+                if (isDisponible == 1) {
+                    disponible = true;
+                } else {
+                    disponible = false;
+                }
                 String tema = rs.getString("tema");
                 String nombreAlumno = rs.getString("Alumno");
 
@@ -41,34 +45,31 @@ public class GestorDB {
 
             st.close();
             rs.close();
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally{
-            try{
+        } finally {
+            try {
                 if (con != null && !con.isClosed()) {
                     con.close();
                 }
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        
+
         return lista;
     }
-    
+
     public ArrayList<DTOAlumnos> obtenerAlumnos() {
         ArrayList<DTOAlumnos> lista = new ArrayList<>();
         Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(CONN,USER,PASS);
-            
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT idAlumno, nombre, apellido, dni\n" +
-                                            "FROM Alumnos");
+            ResultSet rs = st.executeQuery("SELECT idAlumno, nombre, apellido, dni\n"
+                    + "FROM Alumnos");
 
             while (rs.next()) {
                 int id = rs.getInt("idAlumno");
@@ -82,25 +83,47 @@ public class GestorDB {
 
             st.close();
             rs.close();
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally{
-            try{
+        } finally {
+            try {
                 if (con != null && !con.isClosed()) {
                     con.close();
                 }
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
-        
+
         return lista;
     }
-    
-    public void agregarAlumno() {
-        
+
+    public void agregarAlumno(Alumno alumno) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("INSERT INTO Alumnos VALUES(?,?,?,?)");
+            
+            st.setString(1, alumno.getNombre());
+            st.setString(2, alumno.getApellido());
+            st.setInt(3, alumno.getEdad());
+            st.setString(4, alumno.getDni());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }
