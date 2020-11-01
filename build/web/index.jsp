@@ -8,10 +8,35 @@
         <title>Inicio</title>
     </head>
     <body>
-        <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Academia</h4>
-        <div class="container">
+        <div class="container mt-3 mb-4">
+            <p class="display-3 text-center principal">
+                AcademiARG <img src="public/images/bandera-arg.png" class="arg-icon"></img>
+            </p>
+        </div>        
+        
+        <div class="container mt-3 mb-5">
+            <p class="lead bg-dark" style="padding: 20px; color: #fff;">
+                Academia especializada en la enseñanza de programación. 
+                Contamos con cursos de diferentes lenguajes y tecnologías, 
+                y aquí en la nuestra página ofrecemos un link de descarga 
+                de los proyectos finales de nuestros alumnos. <br /> <br />
+                
+                <span class="subtitle">¡A programar!</span>
+            </p>
+            <!--ACÁ VA EXPLICADO SOBRE QUÉ ES LA ACADEMIA-->
+        </div>
+        
+        <hr />
+        
+        <div class="container mt-3 mb-5">
+            <p class="display-4 text-center">
+                Lista de proyectos finales de nuestros alumnos
+            </p>
+        </div>
+        
+        <div class="container mt-3">
             <div class="table-responsive">
-                <table class="table table-hover table-dark border" style="width:100%">
+                <table class="table table-hover border" style="width:100%">
                     <thead>
                         <tr class="text-center">
                             <th>Alumno</th>
@@ -24,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${lista}" var="pf" >
+                        <c:forEach items="${listaProyectos}" var="pf" >
                             <tr>
 
                                 <td class="text-center">${pf.nombreAlumno}</td>

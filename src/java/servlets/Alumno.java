@@ -1,6 +1,10 @@
 package servlets;
 
+import controllers.GestorDB;
+import dtos.DTOAlumnos;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
-
+@WebServlet(name = "Alumno", urlPatterns = {"/Alumno"})
+public class Alumno extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -23,13 +26,13 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario = (String) request.getSession().getAttribute("usuario");
-        if (usuario != null && !usuario.equals("")) {
-            response.sendRedirect("Principal");
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-            rd.forward(request, response);
-        }
+        
+        GestorDB gestor = new GestorDB();
+        ArrayList<DTOAlumnos> lista = gestor.obtenerAlumnos();
+        request.setAttribute("listaAlumnos", lista);
+        
+        RequestDispatcher rd = request.getRequestDispatcher("/menuAlumnos.jsp");
+        rd.forward(request, response);
     }
 
     /**
@@ -43,17 +46,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario = request.getParameter("txtUsuario");
-        String password = request.getParameter("txtPassword");
-
-        if (usuario.equals("admin") && password.equals("admin")) {
-            request.getSession().setAttribute("usuario", usuario);
-            response.sendRedirect("Principal");
-        } else {
-            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos");
-            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-            rd.forward(request, response);
-        }
     }
 
     /**

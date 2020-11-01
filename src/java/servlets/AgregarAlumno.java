@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "AgregarAlumno", urlPatterns = {"/Alumno/AgregarAlumno"})
+public class AgregarAlumno extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -24,11 +24,11 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String usuario = (String) request.getSession().getAttribute("usuario");
-        if (usuario != null && !usuario.equals("")) {
-            response.sendRedirect("Principal");
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+        if (usuario != null && !usuario.equals("")) {            
+            RequestDispatcher rd = request.getRequestDispatcher("/agregarAlumno.jsp");
             rd.forward(request, response);
+        } else {
+            response.sendRedirect("/TrabajoPracticoTema3/Principal");
         }
     }
 
@@ -43,17 +43,10 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario = request.getParameter("txtUsuario");
-        String password = request.getParameter("txtPassword");
-
-        if (usuario.equals("admin") && password.equals("admin")) {
-            request.getSession().setAttribute("usuario", usuario);
-            response.sendRedirect("Principal");
-        } else {
-            request.setAttribute("mensajeError", "Usuario o contraseña incorrectos");
-            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
-            rd.forward(request, response);
-        }
+        String nombre = request.getParameter("txtNombre");
+        String apellido = request.getParameter("txtApellido");
+        int edad = Integer.parseInt(request.getParameter("txtEdad"));
+        String dni = request.getParameter("txtDni");
     }
 
     /**

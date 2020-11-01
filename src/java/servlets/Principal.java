@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Principal", urlPatterns = {"/Principal"})
 public class Principal extends HttpServlet {
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -37,8 +38,8 @@ public class Principal extends HttpServlet {
             throws ServletException, IOException {
         GestorDB gestor = new GestorDB();
         ArrayList<DTOListadoProgramasFinales> lista = gestor.obtenerProgramasFinales();
-        request.setAttribute("lista", lista);
-        
+        request.setAttribute("listaProyectos", lista);
+
         RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
         rd.forward(request, response);
     }

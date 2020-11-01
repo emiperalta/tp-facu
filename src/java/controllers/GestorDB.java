@@ -1,16 +1,16 @@
 package controllers;
 
-import dtos.DTOListadoProgramasFinales;
+import dtos.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.ProgramaFinal;
+import models.*;
 
 public class GestorDB {
     private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";    
     private String USER = "sa";
-    private String PASS = "Facultad138";
+    private String PASS = "password";
     
     public ArrayList<DTOListadoProgramasFinales> obtenerProgramasFinales() {
         ArrayList<DTOListadoProgramasFinales> lista = new ArrayList<>();
@@ -57,5 +57,50 @@ public class GestorDB {
         }
         
         return lista;
+    }
+    
+    public ArrayList<DTOAlumnos> obtenerAlumnos() {
+        ArrayList<DTOAlumnos> lista = new ArrayList<>();
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN,USER,PASS);
+            
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT idAlumno, nombre, apellido, dni\n" +
+                                            "FROM Alumnos");
+
+            while (rs.next()) {
+                int id = rs.getInt("idAlumno");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                String dni = rs.getString("dni");
+
+                DTOAlumnos lstA = new DTOAlumnos(id, nombre, apellido, dni);
+                lista.add(lstA);
+            }
+
+            st.close();
+            rs.close();
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            try{
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+        
+        return lista;
+    }
+    
+    public void agregarAlumno() {
+        
     }
 }
