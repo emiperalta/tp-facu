@@ -1,9 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
 import controllers.GestorDB;
-
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Alumno;
 
-@WebServlet(name = "Alumno", urlPatterns = {"/Alumno"})
-public class MenuAlumno extends HttpServlet {
+/**
+ *
+ * @author Emiliano
+ */
+@WebServlet(name = "EditarAlumno", urlPatterns = {"/EditarAlumno"})
+public class EditarAlumno extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -27,18 +35,21 @@ public class MenuAlumno extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String usuario = (String) request.getSession().getAttribute("usuario");
         if (usuario != null && !usuario.equals("")) {
-            GestorDB gestor = new GestorDB();
-            ArrayList<Alumno> lista = gestor.obtenerAlumnos();
-            request.setAttribute("listaAlumnos", lista);
+            String sId = request.getParameter("id");
+            int id = Integer.parseInt(sId);
 
-            RequestDispatcher rd = request.getRequestDispatcher("/menuAlumnos.jsp");
+            GestorDB gestor = new GestorDB();
+            Alumno alumnoObtenido = gestor.obtenerAlumnoPorId(id);
+
+            request.setAttribute("alumnoObtenido", alumnoObtenido);
+            RequestDispatcher rd = request.getRequestDispatcher("/editarAlumno.jsp");
             rd.forward(request, response);
         } else {
             response.sendRedirect("/TrabajoPracticoTema3/Principal");
         }
+
     }
 
     /**
@@ -52,6 +63,16 @@ public class MenuAlumno extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("txtIdAlumno"));
+        String nombre = request.getParameter("txtNombre");
+        String apellido = request.getParameter("txtApellido");
+        int edad = Integer.parseInt(request.getParameter("txtEdad"));
+        String dni = request.getParameter("txtDni");
+        
+        Alumno a = new Alumno(id, nombre, apellido, edad, dni);
+        GestorDB gestor = new GestorDB();
+        gestor.actualizarAlumno(a);
+        response.sendRedirect("/TrabajoPracticoTema3/Alumno");
     }
 
     /**

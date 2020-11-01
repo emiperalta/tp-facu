@@ -6,6 +6,12 @@ public class Alumno {
     private String apellido;
     private int edad;
     private String dni;
+    
+    public Alumno(){}
+    
+    public Alumno(int idAlumno){
+        this.idAlumno = idAlumno;
+    }
 
     public Alumno(int idAlumno, String nombre, String apellido, int edad, String dni) {
         this.idAlumno = idAlumno;

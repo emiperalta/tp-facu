@@ -60,24 +60,24 @@ public class GestorDB {
         return lista;
     }
 
-    public ArrayList<DTOAlumnos> obtenerAlumnos() {
-        ArrayList<DTOAlumnos> lista = new ArrayList<>();
+    public ArrayList<Alumno> obtenerAlumnos() {
+        ArrayList<Alumno> lista = new ArrayList<>();
         Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN, USER, PASS);
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT idAlumno, nombre, apellido, dni\n"
-                    + "FROM Alumnos");
+            ResultSet rs = st.executeQuery("SELECT * FROM Alumnos");
 
             while (rs.next()) {
                 int id = rs.getInt("idAlumno");
                 String nombre = rs.getString("nombre");
                 String apellido = rs.getString("apellido");
+                int edad = rs.getInt("edad");
                 String dni = rs.getString("dni");
 
-                DTOAlumnos lstA = new DTOAlumnos(id, nombre, apellido, dni);
+                Alumno lstA = new Alumno(id, nombre, apellido, edad, dni);
                 lista.add(lstA);
             }
 
@@ -97,6 +97,49 @@ public class GestorDB {
 
         return lista;
     }
+    
+    public Alumno obtenerAlumnoPorId(int id) {
+        Alumno alum = null;
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN,USER,PASS);
+            
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM Alumnos WHERE idAlumno="+id);
+            
+            if (rs.next()) {
+                int idAlumno = rs.getInt("idAlumno");
+                String nombre = rs.getString("nombre");
+                String apellido = rs.getString("apellido");
+                int edad = rs.getInt("edad");
+                String dni = rs.getString("dni");
+                
+                alum = new Alumno(idAlumno, nombre, apellido, edad, dni);                
+            }
+            
+            st.close();            
+            con.close();            
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            try
+            {
+                if(con != null && !con.isClosed())
+                {
+                    con.close();
+                }
+            }
+            catch(Exception exc)
+            {
+                exc.printStackTrace();
+            }
+        }
+        
+        return alum;
+    }
 
     public void agregarAlumno(Alumno alumno) {
         Connection con = null;
@@ -110,6 +153,64 @@ public class GestorDB {
             st.setString(2, alumno.getApellido());
             st.setInt(3, alumno.getEdad());
             st.setString(4, alumno.getDni());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void actualizarAlumno(Alumno alumno) {        
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("UPDATE Alumnos\n"
+                                                      + "SET nombre = ?, apellido = ?, edad = ?, dni = ?\n"
+                                                      + "WHERE idAlumno = ?");
+            
+            st.setString(1, alumno.getNombre());
+            st.setString(2, alumno.getApellido());
+            st.setInt(3, alumno.getEdad());
+            st.setString(4, alumno.getDni());
+            st.setInt(5, alumno.getIdAlumno());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void eliminarAlumno(Alumno alumno) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("DELETE FROM Alumnos WHERE idAlumno = ?");
+            
+            st.setInt(1, alumno.getIdAlumno());
 
             st.executeUpdate();
 
