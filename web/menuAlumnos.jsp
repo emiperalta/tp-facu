@@ -9,7 +9,12 @@
     </head>
     <body>
         <p class="display-4 title">Menu Alumnos</p>
-        <div class="container text-center" style="margin: 0 auto; width: 40%">
+        <div class="container text-center alumnos-container" >
+            
+            <div class="container" style="margin: 20px auto">
+                <a href="<%= request.getContextPath()%>/Alumno/AgregarAlumno" class="btn btn-info">Agregar</a>
+            </div>
+            
             <div class="list-group">
                 <c:forEach items="${listaAlumnos}" var="alumno">
                     <p>
@@ -20,13 +25,8 @@
                             <span class="text-danger">Eliminar</span>
                         </a>
                     </p>
-
                 </c:forEach>
             </div>  
-        </div>
-        <br />
-        <div class="container" style="margin: 0 auto; width: 40%">
-            <a href="<%= request.getContextPath()%>/Alumno/AgregarAlumno" class="btn btn-primary">Agregar</a>
         </div>
     </body>
 </html>

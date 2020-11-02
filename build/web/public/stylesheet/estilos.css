@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+}
+
+.lead {
+    border-radius: 30px;
+}
+
+.title {
+    text-align: center;
+    padding: 20px;
+}
+
+.subtitle {
+    display: block;
+    text-align: center;
+    font-size: 1.7rem;
+}
+
+hr {
+    margin-bottom: 30px;
+}
+
+.principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arg-icon{
+    width: 85px;
+    height: 85px;
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.alumnos-container {
+    margin: 0 auto;
+    width: 30%
+}
+
+@media screen and (max-width: 1300px) {
+    .alumnos-container {
+        width: 400px;
+    }
+}

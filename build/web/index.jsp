@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
         <title>Inicio</title>
     </head>
     <body>
@@ -13,57 +13,85 @@
                 AcademiARG <img src="public/images/bandera-arg.png" class="arg-icon"></img>
             </p>
         </div>        
-        
+
         <div class="container mt-3 mb-5">
             <p class="lead bg-dark" style="padding: 20px; color: #fff;">
                 Academia especializada en la enseñanza de programación. 
                 Contamos con cursos de diferentes lenguajes y tecnologías, 
                 y aquí en la nuestra página ofrecemos un link de descarga 
                 de los proyectos finales de nuestros alumnos. <br /> <br />
-                
+
                 <span class="subtitle">¡A programar!</span>
             </p>
-            <!--ACÁ VA EXPLICADO SOBRE QUÉ ES LA ACADEMIA-->
         </div>
-        
+
         <hr />
-        
+
         <div class="container mt-3 mb-5">
             <p class="display-4 text-center">
                 Lista de proyectos finales de nuestros alumnos
             </p>
         </div>
-        
+
         <div class="container mt-3">
             <div class="table-responsive">
-                <table class="table table-hover border" style="width:100%">
-                    <thead>
-                        <tr class="text-center">
-                            <th>Alumno</th>
-                            <th>Programa</th>
-                            <th>Tema</th>
-                            <th>Descripción</th>
-                            <th>Cantd. de descargas</th>
-                            <th>Disponible</th>
-                            <th>ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${listaProyectos}" var="pf" >
-                            <tr>
-
-                                <td class="text-center">${pf.nombreAlumno}</td>
-                                <td class="text-center">${pf.nombrePrograma}</td>
-                                <td class="text-center">${pf.temaPrograma}</td>
-                                <td>${pf.descripcion}</td>
-                                <td class="text-center">${pf.descargas}</td>
-                                <td class="text-center"><c:out value="${pf.disponible ? 'Si' : 'No'}" /></td>
-                                <td class="text-center">
-                                    <c:set var = "str" scope = "session" value = "<a href='#'>Descargar</a>"/> 
-                                    <c:out value="${pf.disponible ? str : ''}" escapeXml="false"/>
-                                </td>
+                <table class="table table-hover table-bordered border" style="width:100%">
+                    <c:if test="${usuario != 'admin' || usuario == '' || usuario == null}" >
+                        <thead>
+                            <tr class="text-center">
+                                <th>Alumno</th>
+                                <th>Programa</th>
+                                <th>Tema</th>
+                                <th>Descripción</th>
+                                <th>Cantd. de descargas</th>
+                                <th>ACCIONES</th>
                             </tr>
-                        </c:forEach>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${listaProyectos}" var="pf" >
+                                <c:if test="${pf.disponible}">
+                                    <tr>
+
+                                        <td class="text-center">${pf.nombreAlumno}</td>
+                                        <td class="text-center">${pf.nombrePrograma}</td>
+                                        <td class="text-center">${pf.temaPrograma}</td>
+                                        <td>${pf.descripcion}</td>
+                                        <td class="text-center">${pf.descargas}</td>
+                                        <td class="text-center">
+                                            <a href='#'>Descargar</a>                                        
+                                        </td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                    </c:if>
+                    <c:if test="${usuario == 'admin'}">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Alumno</th>
+                                <th>Programa</th>
+                                <th>Tema</th>
+                                <th>Descripción</th>
+                                <th>Cantd. de descargas</th>
+                                <th>Disponible</th>
+                                <th>ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${listaProyectos}" var="pf" >
+                                <tr>
+                                    <td class="text-center">${pf.nombreAlumno}</td>
+                                    <td class="text-center">${pf.nombrePrograma}</td>
+                                    <td class="text-center">${pf.temaPrograma}</td>
+                                    <td>${pf.descripcion}</td>
+                                    <td class="text-center">${pf.descargas}</td>
+                                    <td class="text-center"><c:out value="${pf.disponible ? 'Si' : 'No'}" /></td>
+                                    <td class="text-center">
+                                        <c:set var = "str" scope = "session" value = "<a href='#'>Descargar</a>"/> 
+                                        <c:out value="${pf.disponible ? str : ''}" escapeXml="false"/>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
                     </tbody>
                 </table>
             </div> 

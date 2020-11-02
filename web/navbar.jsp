@@ -6,16 +6,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-        <link rel="stylesheet" href="public/stylesheet/style.css" />
-        <title>Tema 3</title>
+        <link rel="stylesheet" href="public/stylesheet/estilos.css" />
+        <title>AcademiARG</title>
     </head>
     <body>
-        <c:set var="nologeado" scope="session" value="
+            <c:set var="nologeado" scope="session" value="
                 <nav class='navbar navbar-dark bg-dark'>
                     <a class='navbar-brand' href='/TrabajoPracticoTema3/Principal'>AcademiARG</a>
                     <ul class='navbar-nav'>
                         <li class='nav-item'>
-                            <a class='nav-link' href='/TrabajoPracticoTema3/Login'>Login</a>
+                            <a class='btn border' style='color:white;' href='/TrabajoPracticoTema3/Login'>LOGIN</a>
                         </li>
                     </ul>
                 </nav>" 
@@ -23,7 +23,7 @@
                         
             <c:set var="logeado" scope="session" value ="
                 <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
-                    <a class='navbar-brand' href='/TrabajoPracticoTema3/Principal'>Tema 3</a> 
+                    <a class='navbar-brand' href='/TrabajoPracticoTema3/Principal'>AcademiARG</a> 
                     <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
                         <span class='navbar-toggler-icon'></span>
                     </button>
@@ -40,6 +40,9 @@
                             </li>
                             <li class='nav-item'>
                                 <a class='nav-link' href='/TrabajoPracticoTema3/Inscripcion'>Inscripciones</a>
+                            </li>
+                            <li class='nav-item'>
+                                <a class='nav-link btn border' href='/TrabajoPracticoTema3/Logout'>LOGOUT</a>
                             </li>
                         </ul>
                     </div>

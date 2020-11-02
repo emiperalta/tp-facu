@@ -1,18 +1,25 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package servlets;
 
-import controllers.GestorDB;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Alumno;
 
-@WebServlet(name = "AgregarAlumno", urlPatterns = {"/Alumno/AgregarAlumno"})
-public class AgregarAlumno extends HttpServlet {
-
+/**
+ *
+ * @author Emiliano
+ */
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
+public class Logout extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -26,11 +33,11 @@ public class AgregarAlumno extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String usuario = (String) request.getSession().getAttribute("usuario");
-        if (usuario != null && !usuario.equals("")) {            
-            RequestDispatcher rd = request.getRequestDispatcher("/agregarAlumno.jsp");
-            rd.forward(request, response);
+        if (usuario != null && !usuario.equals("")) {
+            request.getSession().invalidate();
+            response.sendRedirect("Principal");
         } else {
-            response.sendRedirect("/TrabajoPracticoTema3/Principal");
+            response.sendRedirect("Principal");
         }
     }
 
@@ -45,15 +52,6 @@ public class AgregarAlumno extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombre = request.getParameter("txtNombre");
-        String apellido = request.getParameter("txtApellido");
-        int edad = Integer.parseInt(request.getParameter("txtEdad"));
-        String dni = request.getParameter("txtDni");
-        
-        Alumno a = new Alumno(0, nombre, apellido, edad, dni);
-        GestorDB gestor = new GestorDB();
-        gestor.agregarAlumno(a);
-        response.sendRedirect("/TrabajoPracticoTema3/Alumno");
     }
 
     /**

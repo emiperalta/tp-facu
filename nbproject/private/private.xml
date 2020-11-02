@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/src/java/models/Alumno.java</file>
-            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/src/java/servlets/EditarAlumno.java</file>
-            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/src/java/servlets/MenuAlumno.java</file>
             <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/web/menuAlumnos.jsp</file>
-            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/src/java/controllers/GestorDB.java</file>
-            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/src/java/servlets/AgregarAlumno.java</file>
+            <file>file:/C:/Users/Emiliano/Documents/NetBeansProjects/TrabajoPracticoTema3/web/navbar.jsp</file>
         </group>
     </open-files>
 </project-private>
