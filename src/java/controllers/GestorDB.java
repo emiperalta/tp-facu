@@ -10,7 +10,7 @@ import models.*;
 public class GestorDB {
     private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";
     private String USER = "sa";
-    private String PASS = "password";
+    private String PASS = "Facultad138";
 
     public ArrayList<DTOListadoProgramasFinales> obtenerProgramasFinales() {
         ArrayList<DTOListadoProgramasFinales> lista = new ArrayList<>();
@@ -314,6 +314,34 @@ public class GestorDB {
         return cur;
     }
     
+    public void agregarCurso(Curso curso) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("INSERT INTO Cursos VALUES(?,?,?)");
+            
+            st.setString(1, curso.getTema());
+            st.setString(2, curso.getDescripcion());
+            st.setDouble(3, curso.getCosto());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
     public void actualizarCurso(Curso curso) {        
         Connection con = null;
         try {
@@ -328,6 +356,32 @@ public class GestorDB {
             st.setString(2, curso.getDescripcion());
             st.setDouble(3, curso.getCosto());
             st.setInt(4, curso.getIdCurso());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void eliminarCurso(Curso curso) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("DELETE FROM Cursos WHERE idCurso = ?");
+            
+            st.setInt(1, curso.getIdCurso());
 
             st.executeUpdate();
 
@@ -374,5 +428,84 @@ public class GestorDB {
                 ex.printStackTrace();
             }
         }
+    }
+    
+    public Descuento obtenerDescuentoPorId(int id) {
+        Descuento desc = null;
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN,USER,PASS);
+            
+            String sql = "SELECT * FROM Descuentos WHERE idDescuento = ?";
+            
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            
+            if (rs.next()) {
+                int idDescuento = rs.getInt("idDescuento");
+                int porcentaje = rs.getInt("porcentaje");
+                
+                desc = new Descuento(idDescuento, porcentaje);                
+            }
+            
+            st.close();            
+            con.close();            
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            try
+            {
+                if(con != null && !con.isClosed())
+                {
+                    con.close();
+                }
+            }
+            catch(Exception exc)
+            {
+                exc.printStackTrace();
+            }
+        }
+        
+        return desc;
+    }
+    
+    public ArrayList<Descuento> obtenerDescuentos() {
+        ArrayList<Descuento> lista = new ArrayList<>();
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM Descuentos");
+
+            while (rs.next()) {
+                int id = rs.getInt("idDescuento");
+                int porcentaje = rs.getInt("porcentaje");
+
+                Descuento lstD = new Descuento(id, porcentaje);
+                lista.add(lstD);
+            }
+
+            st.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return lista;
     }
 }

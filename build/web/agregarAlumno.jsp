@@ -8,6 +8,7 @@
     </head>
     <body>        
         <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Agregar programa</h4>
+        <br />
         <div class="container" style="margin: 0 auto; width: 40%">
             <form method="post" action="AgregarAlumno">
                 <div class="form-group">

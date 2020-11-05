@@ -1,16 +1,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="navbar.jsp" %>
+<%@include file="navbar.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Agregar Programa</title>
+        <title>Agregar Inscripcion</title>
     </head>
     <body>
-        <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Agregar programa</h4>
+        <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Agregar inscripción</h4>
         <br />
         <div class="container" style="margin: 0 auto; width: 40%">
-            <form method="post" action="AgregarPrograma">
+            <form method="post" action="AgregarInscripcion">
                 <div class="form-group">
                     <label>Alumno</label>
                     <select class="form-control" name="cmbAlumno">
@@ -26,23 +26,31 @@
                             <option value="${lc.idCurso}">${lc.tema}</option>
                         </c:forEach>
                     </select>
+                </div>                
+                <div class="form-group">
+                    <label>Descuento</label>
+                    <select class="form-control" name="cmbDescuento">
+                        <c:forEach items="${listaDescuentos}" var="ld">
+                            <option value="${ld.idDescuento}">% ${ld.porcentaje}</option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Nombre del programa</label>
-                    <input type="text" name="txtNombrePrograma" class="form-control" required="true">
+                    <label>Fecha de inicio</label>
+                    <input type="text" name="txtFechaInicio" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea type="text" name="txtDescripcion" rows="4" style="resize:none;" class="form-control" required="true"></textarea>
+                    <label>Fecha de finalización</label>
+                    <input type="text" name="txtFechaFin" class="form-control" required="true">
                 </div>
                 <div class="form-group">
-                    <label>Descargas</label>
-                    <input type="number" min="0" name="txtDescargas" class="form-control" required="true">
+                    <label>Monto</label>
+                    <input type="number" min="0" name="txtMonto" class="form-control" required="true">
                 </div>
-                <div class="form-group">
-                    <label>¿Está disponible?</label>
-                    <input type="checkbox" name="txtDisponible" class="check" value="txtDisponible" >
-                </div>    
+                <!--<div class="form-group">
+                    <label>Monto de descuento</label>
+                    <input type="number" min="0" name="txtMontoDescuento" class="form-control" required="true">
+                </div>-->    
                 
                 <button type="submit" class="btn btn-primary">Agregar programa</button>
             </form>

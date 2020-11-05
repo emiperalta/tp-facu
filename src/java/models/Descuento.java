@@ -2,9 +2,9 @@ package models;
 
 public class Descuento {
     private int idDescuento;
-    private double porcentaje;
+    private int porcentaje;
 
-    public Descuento(int idDescuento, double porcentaje) {
+    public Descuento(int idDescuento, int porcentaje) {
         this.idDescuento = idDescuento;
         this.porcentaje = porcentaje;
     }
@@ -21,7 +21,7 @@ public class Descuento {
         return porcentaje;
     }
 
-    public void setPorcentaje(double porcentaje) {
+    public void setPorcentaje(int porcentaje) {
         this.porcentaje = porcentaje;
     }
 

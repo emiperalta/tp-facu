@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets.Programa;
 
 import controllers.GestorDB;
@@ -18,11 +13,7 @@ import models.Alumno;
 import models.Curso;
 import models.ProgramaFinal;
 
-/**
- *
- * @author Emiliano
- */
-@WebServlet(name = "Agregarprograma", urlPatterns = {"/AgregarPrograma"})
+@WebServlet(name = "Programa", urlPatterns = {"/AgregarPrograma"})
 public class AgregarPrograma extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -76,7 +67,7 @@ public class AgregarPrograma extends HttpServlet {
         String descripcion = request.getParameter("txtDescripcion");
         int cantidadDescargas = Integer.parseInt(request.getParameter("txtDescargas"));
         
-        Boolean disponible = null;
+        boolean disponible = false;
         if(request.getParameter("txtDisponible") == null) {
             disponible = false;
         } else {

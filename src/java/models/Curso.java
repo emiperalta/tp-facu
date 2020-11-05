@@ -5,6 +5,10 @@ public class Curso {
     private String tema;
     private String descripcion;
     private double costo;
+    
+    public Curso(int idCurso){
+        this.idCurso = idCurso;
+    }
 
     public Curso(int idCurso, String tema, String descripcion, double costo) {
         this.idCurso = idCurso;

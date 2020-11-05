@@ -12,7 +12,7 @@
     </head>
     <body>
             <c:set var="nologeado" scope="session" value="
-                    <nav class='navbar navbar-dark bg-dark'>
+                <nav class='navbar navbar-dark bg-dark'>
                     <a class='navbar-brand' href='/tp-facu/Principal'>AcademiARG</a>
                     <ul class='navbar-nav'>
                         <li class='nav-item'>
@@ -40,7 +40,7 @@
                                 <a class='nav-link' href='/tp-facu/Alumno'>Alumnos</a>
                             </li>
                             <li class='nav-item'>
-                                <a class='nav-link' href='/tp-facu/Inscripcion'>Inscripciones</a>
+                                <a class='nav-link' href='/tp-facu/AgregarInscripcion'>Inscripciones</a>
                             </li>
                             <li class='nav-item'>
                                 <a class='nav-link btn border' href='/tp-facu/Logout'>LOGOUT</a>

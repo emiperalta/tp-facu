@@ -2,8 +2,6 @@ package servlets.Curso;
 
 import controllers.GestorDB;
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Curso;
 
-@WebServlet(name = "Curso", urlPatterns = {"/Curso"})
-public class MenuCurso extends HttpServlet {
+@WebServlet(name = "EliminarCurso", urlPatterns = {"/EliminarCurso"})
+public class EliminarCurso extends HttpServlet {
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -27,12 +26,15 @@ public class MenuCurso extends HttpServlet {
             throws ServletException, IOException {
         String usuario = (String) request.getSession().getAttribute("usuario");
         if (usuario != null && !usuario.equals("")) {
-            GestorDB gestor = new GestorDB();
-            ArrayList<Curso> lista = gestor.obtenerCursos();
-            request.setAttribute("listaCursos", lista);
+            String sId = request.getParameter("id");
+            int id = Integer.parseInt(sId);
+
+            System.out.println(id);
             
-            RequestDispatcher rd = request.getRequestDispatcher("/menuCursos.jsp");
-            rd.forward(request, response);
+            GestorDB gestor = new GestorDB();
+            gestor.eliminarCurso(new Curso(id));
+            
+            response.sendRedirect("/tp-facu/Curso");
         } else {
             response.sendRedirect("/tp-facu/Principal");
         }
