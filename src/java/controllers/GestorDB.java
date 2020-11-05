@@ -314,6 +314,37 @@ public class GestorDB {
         return cur;
     }
     
+    public void actualizarCurso(Curso curso) {        
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("UPDATE Cursos\n"
+                                                      + "SET tema = ?, descripcion = ?, costo = ?\n"
+                                                      + "WHERE idCurso = ?");
+            
+            st.setString(1, curso.getTema());
+            st.setString(2, curso.getDescripcion());
+            st.setDouble(3, curso.getCosto());
+            st.setInt(4, curso.getIdCurso());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
     public void agregarPrograma(ProgramaFinal programa) {
         Connection con = null;
         try {

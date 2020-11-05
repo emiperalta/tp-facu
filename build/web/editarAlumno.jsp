@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Editar Alumno</title>
     </head>
     <body>
         <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Editar alumno</h4>

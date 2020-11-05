@@ -1,4 +1,4 @@
-package servlets.Alumno;
+package servlets.Curso;
 
 import controllers.GestorDB;
 import java.io.IOException;
@@ -8,10 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Alumno;
+import models.Curso;
 
-@WebServlet(name = "EditarAlumno", urlPatterns = {"/EditarAlumno"})
-public class EditarAlumno extends HttpServlet {
+@WebServlet(name = "EditarCurso", urlPatterns = {"/EditarCurso"})
+public class EditarCurso extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -31,10 +31,10 @@ public class EditarAlumno extends HttpServlet {
             int id = Integer.parseInt(sId);
 
             GestorDB gestor = new GestorDB();
-            Alumno alumnoObtenido = gestor.obtenerAlumnoPorId(id);
+            Curso cursoObtenido = gestor.obtenerCursoPorId(id);
 
-            request.setAttribute("alumnoObtenido", alumnoObtenido);
-            RequestDispatcher rd = request.getRequestDispatcher("/editarAlumno.jsp");
+            request.setAttribute("cursoObtenido", cursoObtenido);
+            RequestDispatcher rd = request.getRequestDispatcher("/editarCurso.jsp");
             rd.forward(request, response);
         } else {
             response.sendRedirect("/tp-facu/Principal");
@@ -52,16 +52,15 @@ public class EditarAlumno extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("txtIdAlumno"));
-        String nombre = request.getParameter("txtNombre");
-        String apellido = request.getParameter("txtApellido");
-        int edad = Integer.parseInt(request.getParameter("txtEdad"));
-        String dni = request.getParameter("txtDni");
+        int id = Integer.parseInt(request.getParameter("txtIdCurso"));
+        String tema = request.getParameter("txtTema");
+        String descripcion = request.getParameter("txtDescripcion");
+        double costo = Double.parseDouble(request.getParameter("txtCosto"));
         
-        Alumno alumno = new Alumno(id, nombre, apellido, edad, dni);
+        Curso curso = new Curso(id, tema, descripcion, costo);
         GestorDB gestor = new GestorDB();
-        gestor.actualizarAlumno(alumno);
-        response.sendRedirect("/tp-facu/Alumno");
+        gestor.actualizarCurso(curso);
+        response.sendRedirect("/tp-facu/Curso");
     }
 
     /**
