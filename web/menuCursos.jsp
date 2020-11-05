@@ -1,11 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="navbar.jsp" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Menu alumnos</title>
+        <title>Menu Cursos</title>
     </head>
     <body>
         <p class="display-4 title">Menu Alumnos</p>
@@ -16,12 +15,12 @@
             </div>
             
             <div class="list-group">
-                <c:forEach items="${listaAlumnos}" var="alumno">
+                <c:forEach items="${listaCursos}" var="curso">
                     <p>
-                        <a href="<%= request.getContextPath()%>/EditarAlumno?id=${alumno.idAlumno}" class="list-group-item list-group-item-action">
-                            ID: ${alumno.idAlumno} - ${alumno.apellido}, ${alumno.nombre} - DNI: ${alumno.dni}
+                        <a href="<%= request.getContextPath()%>/EditarCurso?id=${curso.idCurso}" class="list-group-item list-group-item-action">
+                            ID: ${curso.idCurso} - ${curso.tema}, ${curso.descripcion} - Costo: $${curso.costo}
                         </a>
-                        <a href="<%= request.getContextPath()%>/EliminarAlumno?id=${alumno.idAlumno}" class="list-group-item list-group-item-action">
+                        <a href="<%= request.getContextPath()%>/EliminarCurso?id=${curso.idCurso}" class="list-group-item list-group-item-action">
                             <span class="text-danger">Eliminar</span>
                         </a>
                     </p>

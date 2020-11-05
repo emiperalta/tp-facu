@@ -47,7 +47,7 @@ public class EditarAlumno extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/editarAlumno.jsp");
             rd.forward(request, response);
         } else {
-            response.sendRedirect("/TrabajoPracticoTema3/Principal");
+            response.sendRedirect("/tp-facu/Principal");
         }
 
     }
@@ -72,7 +72,7 @@ public class EditarAlumno extends HttpServlet {
         Alumno a = new Alumno(id, nombre, apellido, edad, dni);
         GestorDB gestor = new GestorDB();
         gestor.actualizarAlumno(a);
-        response.sendRedirect("/TrabajoPracticoTema3/Alumno");
+        response.sendRedirect("/tp-facu/Alumno");
     }
 
     /**

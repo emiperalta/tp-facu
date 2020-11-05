@@ -43,9 +43,9 @@ public class EliminarAlumno extends HttpServlet {
             GestorDB gestor = new GestorDB();
             gestor.eliminarAlumno(new Alumno(id));
             
-            response.sendRedirect("/TrabajoPracticoTema3/Alumno");
+            response.sendRedirect("/tp-facu/Alumno");
         } else {
-            response.sendRedirect("/TrabajoPracticoTema3/Principal");
+            response.sendRedirect("/tp-facu/Principal");
         }
     }
 

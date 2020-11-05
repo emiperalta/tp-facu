@@ -37,6 +37,10 @@ hr {
     margin-bottom: 20px;
 }
 
+.check {
+    margin-left: 20px;
+}
+
 .alumnos-container {
     margin: 0 auto;
     width: 30%

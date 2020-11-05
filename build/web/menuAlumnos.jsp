@@ -12,7 +12,7 @@
         <div class="container text-center alumnos-container" >
             
             <div class="container" style="margin: 20px auto">
-                <a href="<%= request.getContextPath()%>/Alumno/AgregarAlumno" class="btn btn-info">Agregar</a>
+                <a href="<%= request.getContextPath()%>/AgregarAlumno" class="btn btn-info">Agregar</a>
             </div>
             
             <div class="list-group">
