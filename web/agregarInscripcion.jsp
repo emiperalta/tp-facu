@@ -23,7 +23,7 @@
                     <label>Curso</label>
                     <select class="form-control" name="cmbCurso">
                         <c:forEach items="${listaCursos}" var="lc">
-                            <option value="${lc.idCurso}">${lc.tema}</option>
+                            <option value="${lc.idCurso}">${lc.tema} - $${lc.costo}</option>
                         </c:forEach>
                     </select>
                 </div>                
@@ -43,11 +43,11 @@
                     <label>Fecha de finalización</label>
                     <input type="text" name="txtFechaFin" class="form-control" required="true">
                 </div>
-                <div class="form-group">
-                    <label>Monto</label>
-                    <input type="number" min="0" name="txtMonto" class="form-control" required="true">
-                </div>
                 <!--<div class="form-group">
+                    <label>Monto</label>
+                    <input type="number" disabled placeholder="" class="form-control" required="true">
+                </div>
+                <div class="form-group">
                     <label>Monto de descuento</label>
                     <input type="number" min="0" name="txtMontoDescuento" class="form-control" required="true">
                 </div>-->    

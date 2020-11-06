@@ -14,11 +14,9 @@
             <c:set var="nologeado" scope="session" value="
                 <nav class='navbar navbar-dark bg-dark'>
                     <a class='navbar-brand' href='/tp-facu/Principal'>AcademiARG</a>
-                    <ul class='navbar-nav'>
-                        <li class='nav-item'>
-                            <a class='btn border' style='color:white;' href='/tp-facu/Login'>LOGIN</a>
-                        </li>
-                    </ul>
+                    <form class='form-inline my-2 my-lg-0'>
+                        <a class='nav-link btn border mr-sm-2' style='color:white;' href='/tp-facu/Login'>LOGIN</a>
+                    </form>
                 </nav>" 
             /> 
                         
@@ -29,7 +27,7 @@
                         <span class='navbar-toggler-icon'></span>
                     </button>
                     <div class='collapse navbar-collapse' id='navbarNav'>
-                        <ul class='navbar-nav'>
+                        <ul class='navbar-nav mr-auto mt-2 mt-lg-0'>
                             <li class='nav-item'>
                                 <a class='nav-link' href='/tp-facu/AgregarPrograma'>Cargar programa</a>
                             </li>
@@ -42,10 +40,13 @@
                             <li class='nav-item'>
                                 <a class='nav-link' href='/tp-facu/AgregarInscripcion'>Inscripciones</a>
                             </li>
-                            <li class='nav-item'>
-                                <a class='nav-link btn border' href='/tp-facu/Logout'>LOGOUT</a>
+                            <li class='nav-item' style='margin-right:20px;'>
+                                <a class='nav-link' href='/tp-facu/Reporte'>Reportes</a>
                             </li>
                         </ul>
+                        <form class='form-inline my-2 my-lg-0'>
+                            <a class='nav-link btn border mr-sm-2' style='color:white;' href='/tp-facu/Logout'>LOGOUT</a>
+                        </form>
                     </div>
                 </nav>" 
             />             

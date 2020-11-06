@@ -1,6 +1,7 @@
-package servlets.Inscripcion;
+package servlets.Reporte;
 
 import controllers.GestorDB;
+import dtos.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -9,10 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.*;
 
-@WebServlet(name = "AgregarInscripcion", urlPatterns = {"/AgregarInscripcion"})
-public class AgregarInscripcion extends HttpServlet {
+@WebServlet(name = "MenuReporte", urlPatterns = {"/Reporte"})
+public class MenuReporte extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -29,15 +29,10 @@ public class AgregarInscripcion extends HttpServlet {
         if (usuario != null && !usuario.equals("")) {
             GestorDB gestor = new GestorDB();
             
-            ArrayList<Alumno> listaAlumnos = gestor.obtenerAlumnos();
-            ArrayList<Curso> listaCursos = gestor.obtenerCursos();
-            ArrayList<Descuento> listaDescuentos = gestor.obtenerDescuentos();
+            ArrayList<DTOTotalFacturadoPorCurso> listaMontoCurso = gestor.obtenerTotalFacturadoPorCurso();
+            request.setAttribute("listaMontoCurso", listaMontoCurso);
             
-            request.setAttribute("listaAlumnos", listaAlumnos);
-            request.setAttribute("listaCursos", listaCursos);
-            request.setAttribute("listaDescuentos", listaDescuentos);
-            
-            RequestDispatcher rd = request.getRequestDispatcher("/agregarInscripcion.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/menuReportes.jsp");
             rd.forward(request, response);
         } else {
             response.sendRedirect("/tp-facu/Principal");
@@ -55,27 +50,6 @@ public class AgregarInscripcion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        GestorDB gestor = new GestorDB();
-        
-        int idAlumnoCMB = Integer.parseInt(request.getParameter("cmbAlumno"));
-        Alumno idAlumno = gestor.obtenerAlumnoPorId(idAlumnoCMB);
-        
-        int idCursoCMB = Integer.parseInt(request.getParameter("cmbCurso"));
-        Curso idCurso = gestor.obtenerCursoPorId(idCursoCMB);
-        
-        int idDescuentoCMB = Integer.parseInt(request.getParameter("cmbDescuento"));
-        Descuento idDescuento = gestor.obtenerDescuentoPorId(idDescuentoCMB);
-        
-        String fechaInicio = request.getParameter("txtFechaInicio");
-        String fechaFin = request.getParameter("txtFechaFin");
-        double montoSinDescuento = idCurso.getCosto();        
-        double montoDescuento = montoSinDescuento * idDescuento.getPorcentaje() / 100;
-        double montoFinal = montoSinDescuento - montoDescuento;
-
-        Inscripcion inscripcion = new Inscripcion(0, idAlumno, idCurso, idDescuento, fechaInicio, fechaFin, montoFinal, montoDescuento);
-        GestorDB gestorr = new GestorDB();
-        gestor.agregarInscripcion(inscripcion);
-        response.sendRedirect("/tp-facu/Principal");
     }
 
     /**

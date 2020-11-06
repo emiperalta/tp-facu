@@ -10,7 +10,7 @@ import models.*;
 public class GestorDB {
     private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";
     private String USER = "sa";
-    private String PASS = "Facultad138";
+    private String PASS = "password";
 
     public ArrayList<DTOListadoProgramasFinales> obtenerProgramasFinales() {
         ArrayList<DTOListadoProgramasFinales> lista = new ArrayList<>();
@@ -20,9 +20,9 @@ public class GestorDB {
             con = DriverManager.getConnection(CONN, USER, PASS);
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno'\n"
-                    + "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n"
-                    + "	JOIN Cursos c ON pf.idCurso = c.idCurso");
+            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno'\n" +
+                                           "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n" +
+                                            "  JOIN Cursos c ON pf.idCurso = c.idCurso");
 
             while (rs.next()) {
                 String nombreProg = rs.getString("nombrePrograma");
@@ -104,7 +104,8 @@ public class GestorDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN,USER,PASS);
             
-            String sql = "SELECT * FROM Alumnos WHERE idAlumno = ?";
+            String sql = "SELECT * FROM Alumnos \n" + 
+                         "WHERE idAlumno = ?";
             
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
@@ -179,9 +180,9 @@ public class GestorDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN, USER, PASS);
 
-            PreparedStatement st = con.prepareStatement("UPDATE Alumnos\n"
-                                                      + "SET nombre = ?, apellido = ?, edad = ?, dni = ?\n"
-                                                      + "WHERE idAlumno = ?");
+            PreparedStatement st = con.prepareStatement("UPDATE Alumnos \n" +
+                                                        "SET nombre = ?, apellido = ?, edad = ?, dni = ? \n" +
+                                                        "WHERE idAlumno = ?");
             
             st.setString(1, alumno.getNombre());
             st.setString(2, alumno.getApellido());
@@ -211,7 +212,8 @@ public class GestorDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN, USER, PASS);
 
-            PreparedStatement st = con.prepareStatement("DELETE FROM Alumnos WHERE idAlumno = ?");
+            PreparedStatement st = con.prepareStatement("DELETE FROM Alumnos \n"+
+                                                        "WHERE idAlumno = ?");
             
             st.setInt(1, alumno.getIdAlumno());
 
@@ -275,7 +277,8 @@ public class GestorDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN,USER,PASS);
             
-            String sql = "SELECT * FROM Cursos WHERE idCurso = ?";
+            String sql = "SELECT * FROM Cursos \n"+
+                         "WHERE idCurso = ?";
             
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
@@ -506,6 +509,76 @@ public class GestorDB {
             }
         }
         
+        return lista;
+    }
+    
+    public void agregarInscripcion(Inscripcion inscripcion) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("INSERT INTO Inscripciones VALUES(?,?,?,?,?,?,?)");
+            
+            st.setInt(1, inscripcion.getAlumno().getIdAlumno());
+            st.setInt(2, inscripcion.getCurso().getIdCurso());
+            st.setInt(3, inscripcion.getDescuento().getIdDescuento());
+            st.setString(4, inscripcion.getFechaInicio());
+            st.setString(5, inscripcion.getFechaFin());
+            st.setDouble(6, inscripcion.getMonto());
+            st.setDouble(7, inscripcion.getMontoDescuento());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    public ArrayList<DTOTotalFacturadoPorCurso> obtenerTotalFacturadoPorCurso() {
+        ArrayList<DTOTotalFacturadoPorCurso> lista = new ArrayList<>();
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT i.idCurso, tema, SUM(monto) 'Total' \n" +
+                                           "FROM Inscripciones i JOIN Cursos c ON i.idCurso = c.idCurso \n" +
+                                           "GROUP BY i.idCurso, tema");
+
+            while (rs.next()) {
+                int idCurso = rs.getInt("idCurso");
+                String tema = rs.getString("tema");
+                double montoFacturado = rs.getDouble("Total");
+
+                DTOTotalFacturadoPorCurso lstTF = new DTOTotalFacturadoPorCurso(idCurso, tema, montoFacturado);
+                lista.add(lstTF);
+            }
+
+            st.close();
+            rs.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
         return lista;
     }
 }
