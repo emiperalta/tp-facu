@@ -36,14 +36,9 @@
                     <textarea type="text" name="txtDescripcion" rows="4" style="resize:none;" class="form-control" required="true"></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Descargas</label>
-                    <input type="number" min="0" name="txtDescargas" class="form-control" required="true">
-                </div>
-                <div class="form-group">
                     <label>¿Está disponible?</label>
                     <input type="checkbox" name="txtDisponible" class="check" value="txtDisponible" >
-                </div>    
-                
+                </div>
                 <button type="submit" class="btn btn-primary">Agregar programa</button>
             </form>
         </div>

@@ -38,7 +38,7 @@
                                 <a class='nav-link' href='/tp-facu/Alumno'>Alumnos</a>
                             </li>
                             <li class='nav-item'>
-                                <a class='nav-link' href='/tp-facu/AgregarInscripcion'>Inscripciones</a>
+                                <a class='nav-link' href='/tp-facu/Inscripcion'>Inscripciones</a>
                             </li>
                             <li class='nav-item' style='margin-right:20px;'>
                                 <a class='nav-link' href='/tp-facu/Reporte'>Reportes</a>

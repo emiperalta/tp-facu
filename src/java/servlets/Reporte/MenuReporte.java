@@ -2,6 +2,7 @@ package servlets.Reporte;
 
 import controllers.GestorDB;
 import dtos.*;
+import models.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -28,9 +29,35 @@ public class MenuReporte extends HttpServlet {
         String usuario = (String) request.getSession().getAttribute("usuario");
         if (usuario != null && !usuario.equals("")) {
             GestorDB gestor = new GestorDB();
-            
+           
+            //Total facturado por cada curso
             ArrayList<DTOTotalFacturadoPorCurso> listaMontoCurso = gestor.obtenerTotalFacturadoPorCurso();
             request.setAttribute("listaMontoCurso", listaMontoCurso);
+            
+            //Sumatoria total de los descuentos realizados
+            DTOSumatoriaDescuentos sumatoriaDescuentos = gestor.obtenerSumatoriaDescuentos();
+            request.setAttribute("sumatoriaDescuentos", sumatoriaDescuentos);
+            
+            //Carga de combobox de cursos para reporte de alumnos por curso
+            ArrayList<Curso> listaCursos = gestor.obtenerCursos();
+            request.setAttribute("listaCursos", listaCursos);
+            
+            //Listado de alumnos de algún curso seleccionado            
+            if(request.getParameter("cmbCurso") != null) {
+                int idCursoCMB = Integer.parseInt(request.getParameter("cmbCurso"));
+                ArrayList<Alumno> listaAlumnosxCurso = gestor.obtenerAlumnosCursoSeleccionado(idCursoCMB);
+                request.setAttribute("listaAlumnosxCurso", listaAlumnosxCurso);
+            }
+            
+            //Listado de los 5 programas más descargados
+            ArrayList<DTOProgramasMasDescargados> listaProgramasMasDesc = gestor.obtener5ProgramasMasDescargados();
+            request.setAttribute("listaProgramasMasDesc", listaProgramasMasDesc);
+            
+            /*Listado de todos los alumnos que accedieron a algún descuento. Si un alumno
+            tiene descuentos en más de un curso, sólo debe aparecer una única vez en el
+            listado.*/
+            ArrayList<DTOAlumnosConAlgunDescuento> listaAlumnosConDesc = gestor.obtenerAlumnosConDescuento();
+            request.setAttribute("listaAlumnosConDesc", listaAlumnosConDesc);
             
             RequestDispatcher rd = request.getRequestDispatcher("/menuReportes.jsp");
             rd.forward(request, response);

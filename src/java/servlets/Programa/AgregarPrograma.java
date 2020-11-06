@@ -65,7 +65,6 @@ public class AgregarPrograma extends HttpServlet {
         
         String nombrePrograma = request.getParameter("txtNombrePrograma");
         String descripcion = request.getParameter("txtDescripcion");
-        int cantidadDescargas = Integer.parseInt(request.getParameter("txtDescargas"));
         
         boolean disponible = false;
         if(request.getParameter("txtDisponible") == null) {
@@ -74,7 +73,7 @@ public class AgregarPrograma extends HttpServlet {
             disponible = true;
         }
         
-        ProgramaFinal programaFinal = new ProgramaFinal(0, nombrePrograma, descripcion, cantidadDescargas, disponible, idCurso, idAlumno);
+        ProgramaFinal programaFinal = new ProgramaFinal(0, nombrePrograma, descripcion, 0, disponible, idCurso, idAlumno);
         
         gestor.agregarPrograma(programaFinal);
         response.sendRedirect("/tp-facu/Principal");

@@ -43,16 +43,7 @@
                     <label>Fecha de finalización</label>
                     <input type="text" name="txtFechaFin" class="form-control" required="true">
                 </div>
-                <!--<div class="form-group">
-                    <label>Monto</label>
-                    <input type="number" disabled placeholder="" class="form-control" required="true">
-                </div>
-                <div class="form-group">
-                    <label>Monto de descuento</label>
-                    <input type="number" min="0" name="txtMontoDescuento" class="form-control" required="true">
-                </div>-->    
-                
-                <button type="submit" class="btn btn-primary">Agregar programa</button>
+                <button type="submit" class="btn btn-primary">Inscribir</button>
             </form>
         </div>
     </body>
