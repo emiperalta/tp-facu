@@ -58,7 +58,7 @@
                                         <td>${pf.descripcion}</td>
                                         <td class="text-center">${pf.descargas}</td>
                                         <td class="text-center">
-                                            <a href='#'>Descargar</a>                                        
+                                            <a href="<%= request.getContextPath()%>/DescargarPrograma?fileName=${pf.filename}">Descargar</a>
                                         </td>
                                     </tr>
                                 </c:if>
@@ -86,7 +86,7 @@
                                     <td class="text-center">${pf.descargas}</td>
                                     <td class="text-center"><c:out value="${pf.disponible ? 'Si' : 'No'}" /></td>
                                     <td class="text-center">
-                                        <c:set var = "str" scope = "session" value = "<a href='#'>Descargar</a>"/> 
+                                        <c:set var = "str" scope = "session" value="<a href='/tp-facu/DescargarPrograma?fileName=${pf.filename}'>Descargar</a>"/> 
                                         <c:out value="${pf.disponible ? str : ''}" escapeXml="false"/>
                                     </td>
                                 </tr>

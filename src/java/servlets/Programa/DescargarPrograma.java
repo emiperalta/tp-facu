@@ -1,5 +1,7 @@
 package servlets.Programa;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,30 +14,62 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DescargarPrograma", urlPatterns = {"/DescargarPrograma"})
 public class DescargarPrograma extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    public static int BUFFER_SIZE = 1024 * 100;
+    public static final String UPLOAD_DIR = "public\\archivos";
+    public static String fileName = null;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setHeader("Content-disposition", "attachment; filename=nombreArchivo.extension");
+        
+        fileName = request.getParameter("fileName");
+        if (fileName == null || fileName.equals("")) {
+            response.setContentType("text/html");
+            response.getWriter().println("<h3>File " + fileName + "is not present!</h3>");
+        } else {
+           String appliactionPath = getServletContext().getRealPath("");
+           String downloadPath = appliactionPath + File.separator + UPLOAD_DIR;
+           String filePath = downloadPath + File.separator + fileName;
+           File file = new File(filePath);
+           OutputStream outStream = null;
+            FileInputStream inputStream = null;
+            
+            if (file.exists()) {
+                String mimeType = "application/octet-stream";
+                response.setContentType(mimeType);
+                
+                String headerKey = "Content-Disposition";
+                String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+                response.setHeader(headerKey, headerValue);
+                
+                try {
+                    outStream = response.getOutputStream();
+                    inputStream = new FileInputStream(file);
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    int bytesRead = -1;
 
-        try (InputStream in = request.getServletContext().getResourceAsStream("/public/archivos/nombreArchivo.extension");
-        OutputStream out = response.getOutputStream()) {
-            byte[] buffer = new byte[1048];
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outStream.write(buffer, 0, bytesRead);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
 
-            int numBytesRead;
+                    outStream.flush();
+                    if (outStream != null) {
+                        outStream.close();
+                    }
 
-            while ((numBytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, numBytesRead);
+                    //HACER +1 METOAJSDKLa hjslbk
+                }
+            } else {
+                response.setContentType("text/html");
+                response.getWriter().println("<h3>File " + fileName + " Is Not Present .....!</h3>");
             }
-        }
+        }       
     }
 
     /**

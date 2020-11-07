@@ -20,7 +20,7 @@ public class GestorDB {
             con = DriverManager.getConnection(CONN, USER, PASS);
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno'\n" +
+            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno', filename, path\n" +
                                            "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n" +
                                             "  JOIN Cursos c ON pf.idCurso = c.idCurso");
 
@@ -37,8 +37,10 @@ public class GestorDB {
                 }
                 String tema = rs.getString("tema");
                 String nombreAlumno = rs.getString("Alumno");
+                String fileName = rs.getString("filename");
+                String path = rs.getString("path");
 
-                DTOListadoProgramasFinales lstPF = new DTOListadoProgramasFinales(nombreProg, descrip, descargas, disponible, tema, nombreAlumno);
+                DTOListadoProgramasFinales lstPF = new DTOListadoProgramasFinales(nombreProg, descrip, descargas, disponible, tema, nombreAlumno, fileName, path);
                 lista.add(lstPF);
             }
 
@@ -408,7 +410,7 @@ public class GestorDB {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN, USER, PASS);
 
-            PreparedStatement st = con.prepareStatement("INSERT INTO ProgramasFinales VALUES(?,?,?,?,?,?)");
+            PreparedStatement st = con.prepareStatement("INSERT INTO ProgramasFinales VALUES(?,?,?,?,?,?,?,?)");
             
             st.setString(1, programa.getNombrePrograma());
             st.setString(2, programa.getDescripcion());
@@ -416,6 +418,8 @@ public class GestorDB {
             st.setBoolean(4, programa.isDisponible());
             st.setInt(5, programa.getCurso().getIdCurso());
             st.setInt(6, programa.getAlumno().getIdAlumno());
+            st.setString(7, programa.getFilename());
+            st.setString(8, programa.getPath());
 
             st.executeUpdate();
 

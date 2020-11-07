@@ -1,7 +1,12 @@
 package servlets.Programa;
 
 import controllers.GestorDB;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -61,6 +66,12 @@ public class AgregarPrograma extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        String folderName = "public\\archivos";
+        String uploadPath = request.getServletContext().getRealPath("") + File.separator + folderName;
+        File dir = new File(uploadPath);
+        if (!dir.exists())
+            dir.mkdirs();
+        
         GestorDB gestor = new GestorDB();
         
         int idAlumnoCMB = Integer.parseInt(request.getParameter("cmbAlumno"));
@@ -72,11 +83,17 @@ public class AgregarPrograma extends HttpServlet {
         String nombrePrograma = request.getParameter("txtNombrePrograma");
         String descripcion = request.getParameter("txtDescripcion");
         
-        for (Part part : request.getParts()) {
+        Part filePart = request.getPart("inputPrograma");
+        String fileName = filePart.getSubmittedFileName();
+        String path = folderName + File.separator + fileName;
+        InputStream is = filePart.getInputStream();
+        Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
+        
+        /*for (Part part : request.getParts()) {
             String fileName = getFileName(part);
             if (!fileName.isEmpty())
                 part.write(fileName);
-        }
+        }*/
         
         boolean disponible = false;
         if(request.getParameter("txtDisponible") == null) {
@@ -85,10 +102,13 @@ public class AgregarPrograma extends HttpServlet {
             disponible = true;
         }
         
-//        ProgramaFinal programaFinal = new ProgramaFinal(0, nombrePrograma, descripcion, 0, disponible, idCurso, idAlumno);
-//        
-//        gestor.agregarPrograma(programaFinal);
-//        response.sendRedirect("/tp-facu/Principal");
+        System.out.println("fileName: " + fileName);
+        System.out.println("Path: " + uploadPath);
+        
+        ProgramaFinal programaFinal = new ProgramaFinal(0, nombrePrograma, descripcion, 0, disponible, idCurso, idAlumno, fileName, path);
+        
+        gestor.agregarPrograma(programaFinal);
+        response.sendRedirect("/tp-facu/Principal");
     }
     
     private String getFileName(Part part) {
@@ -99,6 +119,7 @@ public class AgregarPrograma extends HttpServlet {
         }
         return "";
     }
+    
 
     /**
      * Returns a short description of the servlet.

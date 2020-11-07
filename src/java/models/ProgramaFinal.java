@@ -8,8 +8,10 @@ public class ProgramaFinal {
     private boolean disponible;
     private Curso curso;
     private Alumno alumno;
+    private String filename;
+    private String path;
 
-    public ProgramaFinal(int idProgramaFinal, String nombrePrograma, String descripcion, int descargas, boolean disponible, Curso curso, Alumno alumno) {
+    public ProgramaFinal(int idProgramaFinal, String nombrePrograma, String descripcion, int descargas, boolean disponible, Curso curso, Alumno alumno, String filename, String path) {
         this.idProgramaFinal = idProgramaFinal;
         this.nombrePrograma = nombrePrograma;
         this.descripcion = descripcion;
@@ -17,6 +19,24 @@ public class ProgramaFinal {
         this.disponible = disponible;
         this.curso = curso;
         this.alumno = alumno;
+        this.filename = filename;
+        this.path = path;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public int getIdProgramaFinal() {
@@ -64,6 +84,9 @@ public class ProgramaFinal {
 
     @Override
     public String toString() {
-        return "ID: " + idProgramaFinal + ", Nombre del programa: " + nombrePrograma + ", Descripcion: " + descripcion + ", Descargas: " + descargas + ", Disponible: " + disponible + ", Curso: " + curso.getTema() + ", Alumno: " + alumno.getNombre() + " " + alumno.getApellido();
+        return "ID: " + idProgramaFinal + ", Nombre del programa = " + nombrePrograma +
+                ", Descripción = " + descripcion + ", Cantd. de descargas = " + descargas +
+                ", Disponible = " + disponible + ", Curso = " + curso + ", Alumno = " + alumno +
+                ", Nombre del archivo = " + filename + ", Path = " + path;
     }
 }

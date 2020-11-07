@@ -7,7 +7,32 @@ public class DTOListadoProgramasFinales {
     private boolean disponible;
     private String temaPrograma;
     private String nombreAlumno;
+    private String filename;
+    private String path;
+    
+    public DTOListadoProgramasFinales(String nombrePrograma, String descripcion, int descargas, boolean disponible, String temaPrograma, String nombreAlumno, String filename, String path) {
+        this.nombrePrograma = nombrePrograma;
+        this.descripcion = descripcion;
+        this.descargas = descargas;
+        this.disponible = disponible;
+        this.temaPrograma = temaPrograma;
+        this.nombreAlumno = nombreAlumno;
+        this.filename = filename;
+        this.path = path;
+    }
 
+    public String getFilename() {
+        return filename;
+    }
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+    public String getPath() {
+        return path;
+    }
+    public void setPath(String path) {
+        this.path = path;
+    }
     public String getNombrePrograma() {
         return nombrePrograma;
     }
@@ -43,14 +68,5 @@ public class DTOListadoProgramasFinales {
     }
     public void setNombreAlumno(String nombreAlumno) {
         this.nombreAlumno = nombreAlumno;
-    }    
-
-    public DTOListadoProgramasFinales(String nombrePrograma, String descripcion, int descargas, boolean disponible, String temaPrograma, String nombreAlumno) {
-        this.nombrePrograma = nombrePrograma;
-        this.descripcion = descripcion;
-        this.descargas = descargas;
-        this.disponible = disponible;
-        this.temaPrograma = temaPrograma;
-        this.nombreAlumno = nombreAlumno;
-    }    
+    }   
 }
