@@ -10,7 +10,7 @@
         <h4 class="display-4 text-center" style="margin-top:20px; margin-bottom: 20px">Agregar programa</h4>
         <br />
         <div class="container" style="margin: 0 auto; width: 40%">
-            <form method="post" action="AgregarPrograma">
+            <form method="post" action="AgregarPrograma" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>Alumno</label>
                     <select class="form-control" name="cmbAlumno">
@@ -34,6 +34,10 @@
                 <div class="form-group">
                     <label>Descripción</label>
                     <textarea type="text" name="txtDescripcion" rows="4" style="resize:none;" class="form-control" required="true"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Programa</label>
+                    <input type="file" name="inputPrograma" class="form-control-file" required="true" />
                 </div>
                 <div class="form-group">
                     <label>¿Está disponible?</label>

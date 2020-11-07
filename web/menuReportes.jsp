@@ -28,30 +28,37 @@
                     <input type="submit" class="btn btn-sm btn-info" value="Consultar">
                 </p>                        
             </form>
-            <div class="table-responsive">
-                <table class="table table-hover table-sm table-bordered border" style="width:100%">
-                    <thead>
-                        <tr class="text-center">
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Edad</th>
-                            <th>DNI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${listaAlumnosxCurso}" var="lac" >
-                            <tr>
-                                <td class="text-center">${lac.idAlumno}</td>
-                                <td class="text-center">${lac.nombre}</td>
-                                <td class="text-center">${lac.apellido}</td>
-                                <td class="text-center">${lac.edad}</td>
-                                <td class="text-center">${lac.dni}</td>
+            <c:if test="${!listaVacia && listaAlumnosxCurso.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm table-bordered border" style="width:100%">
+                        <thead>
+                            <tr class="text-center">
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Edad</th>
+                                <th>DNI</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div> 
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${listaAlumnosxCurso}" var="lac" >
+                                <tr>
+                                    <td class="text-center">${lac.idAlumno}</td>
+                                    <td class="text-center">${lac.nombre}</td>
+                                    <td class="text-center">${lac.apellido}</td>
+                                    <td class="text-center">${lac.edad}</td>
+                                    <td class="text-center">${lac.dni}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div> 
+            </c:if>
+            <c:if test="${listaVacia}">
+                <h3 class="text-center">
+                    ¡Ningún curso seleccionado!
+                </h3>
+            </c:if>
         </div>
         <br />
         <div class="container mt-3">            
