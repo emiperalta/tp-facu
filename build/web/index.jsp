@@ -58,7 +58,7 @@
                                         <td>${pf.descripcion}</td>
                                         <td class="text-center">${pf.descargas}</td>
                                         <td class="text-center">
-                                            <a href="<%= request.getContextPath()%>/DescargarPrograma?fileName=${pf.filename}">Descargar</a>
+                                            <a href="<%= request.getContextPath()%>/DescargarPrograma?id=${pf.idProgramaFinal}&fileName=${pf.filename}">Descargar</a>
                                         </td>
                                     </tr>
                                 </c:if>

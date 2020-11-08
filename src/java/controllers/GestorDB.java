@@ -11,7 +11,7 @@ public class GestorDB {
     private String CONN = "jdbc:sqlserver://localhost;databaseName=TPTema3";
     private String USER = "sa";
     private String PASS = "password";
-
+    
     public ArrayList<DTOListadoProgramasFinales> obtenerProgramasFinales() {
         ArrayList<DTOListadoProgramasFinales> lista = new ArrayList<>();
         Connection con = null;
@@ -562,9 +562,10 @@ public class GestorDB {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(CONN, USER, PASS);
-
+            
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Descuentos");
+            ResultSet rs = st.executeQuery("SELECT * FROM Descuentos \n" +
+                                           "ORDER BY porcentaje");
 
             while (rs.next()) {
                 int id = rs.getInt("idDescuento");

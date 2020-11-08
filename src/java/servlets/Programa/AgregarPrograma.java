@@ -88,6 +88,7 @@ public class AgregarPrograma extends HttpServlet {
         InputStream is = filePart.getInputStream();
         Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
         
+        System.out.println(uploadPath);
         
         boolean disponible = false;
         if(request.getParameter("txtDisponible") == null) {

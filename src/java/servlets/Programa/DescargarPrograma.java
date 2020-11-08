@@ -5,7 +5,6 @@ import dtos.DTODescargasProgramaFinal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -63,7 +62,6 @@ public class DescargarPrograma extends HttpServlet {
                     if (inputStream != null) {
                         inputStream.close();
                     }
-
                     outStream.flush();
                     if (outStream != null) {
                         outStream.close();
