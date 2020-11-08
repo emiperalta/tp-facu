@@ -20,11 +20,12 @@ public class GestorDB {
             con = DriverManager.getConnection(CONN, USER, PASS);
 
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno', filename, path\n" +
+            ResultSet rs = st.executeQuery("SELECT idProgramaFinal, nombrePrograma, pf.descripcion, descargas, disponible, c.tema, nombre + ' ' + apellido 'Alumno', filename, path\n" +
                                            "FROM ProgramasFinales pf JOIN Alumnos a ON pf.idAlumno = a.idAlumno \n" +
                                             "  JOIN Cursos c ON pf.idCurso = c.idCurso");
 
             while (rs.next()) {
+                int idProgramaFinal = rs.getInt("idProgramaFinal");
                 String nombreProg = rs.getString("nombrePrograma");
                 String descrip = rs.getString("descripcion");
                 int descargas = rs.getInt("descargas");
@@ -40,7 +41,7 @@ public class GestorDB {
                 String fileName = rs.getString("filename");
                 String path = rs.getString("path");
 
-                DTOListadoProgramasFinales lstPF = new DTOListadoProgramasFinales(nombreProg, descrip, descargas, disponible, tema, nombreAlumno, fileName, path);
+                DTOListadoProgramasFinales lstPF = new DTOListadoProgramasFinales(idProgramaFinal,nombreProg, descrip, descargas, disponible, tema, nombreAlumno, fileName, path);
                 lista.add(lstPF);
             }
 
@@ -59,6 +60,80 @@ public class GestorDB {
         }
 
         return lista;
+    }
+    
+    public DTODescargasProgramaFinal obtenerDescargasProgramaFinalPorId(int id) {
+        DTODescargasProgramaFinal progfin = null;
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN,USER,PASS);
+            
+            String sql = "SELECT idProgramaFinal, descargas FROM ProgramasFinales \n" + 
+                         "WHERE idProgramaFinal = ?";
+            
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            
+            if (rs.next()) {
+                int idProgramaFinal = rs.getInt("idProgramaFinal");
+                int descargas = rs.getInt("descargas");
+                
+                progfin = new DTODescargasProgramaFinal(idProgramaFinal, descargas);                
+            }
+            
+            st.close();            
+            con.close();            
+        } 
+        catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally{
+            try
+            {
+                if(con != null && !con.isClosed())
+                {
+                    con.close();
+                }
+            }
+            catch(Exception exc)
+            {
+                exc.printStackTrace();
+            }
+        }
+        
+        return progfin;
+    }
+    
+    public void sumarDescargas(DTODescargasProgramaFinal progfin) {
+        Connection con = null;
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(CONN, USER, PASS);
+
+            PreparedStatement st = con.prepareStatement("UPDATE ProgramasFinales\n"
+                                                      + "SET descargas = ?\n"
+                                                      + "WHERE idProgramaFinal = ?");
+            
+            st.setInt(1, progfin.getDescargas() + 1);
+            st.setInt(2, progfin.getIdProgramaFinal());
+
+            st.executeUpdate();
+
+            st.close();
+        } catch (Exception ex) {
+            Logger.getLogger(GestorDB.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (con != null && !con.isClosed()) {
+                    con.close();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public ArrayList<Alumno> obtenerAlumnos() {

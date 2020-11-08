@@ -22,8 +22,7 @@ import models.*;
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
-        maxRequestSize = 1024 * 1024 * 5 * 5,
-        location = "C:\\Users\\Emiliano\\Desktop\\tp-facu\\web\\public\\archivos"
+        maxRequestSize = 1024 * 1024 * 5 * 5
 )
 public class AgregarPrograma extends HttpServlet {
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,11 +88,6 @@ public class AgregarPrograma extends HttpServlet {
         InputStream is = filePart.getInputStream();
         Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
         
-        /*for (Part part : request.getParts()) {
-            String fileName = getFileName(part);
-            if (!fileName.isEmpty())
-                part.write(fileName);
-        }*/
         
         boolean disponible = false;
         if(request.getParameter("txtDisponible") == null) {
@@ -102,22 +96,10 @@ public class AgregarPrograma extends HttpServlet {
             disponible = true;
         }
         
-        System.out.println("fileName: " + fileName);
-        System.out.println("Path: " + uploadPath);
-        
         ProgramaFinal programaFinal = new ProgramaFinal(0, nombrePrograma, descripcion, 0, disponible, idCurso, idAlumno, fileName, path);
         
         gestor.agregarPrograma(programaFinal);
         response.sendRedirect("/tp-facu/Principal");
-    }
-    
-    private String getFileName(Part part) {
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(content.indexOf("=") + 2, content.length() - 1);
-            }
-        }
-        return "";
     }
     
 

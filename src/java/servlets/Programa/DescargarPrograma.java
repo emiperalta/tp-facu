@@ -1,5 +1,7 @@
 package servlets.Programa;
 
+import controllers.GestorDB;
+import dtos.DTODescargasProgramaFinal;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,6 +23,7 @@ public class DescargarPrograma extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        GestorDB gestor = new GestorDB();
         
         fileName = request.getParameter("fileName");
         if (fileName == null || fileName.equals("")) {
@@ -51,6 +54,9 @@ public class DescargarPrograma extends HttpServlet {
                     while ((bytesRead = inputStream.read(buffer)) != -1) {
                         outStream.write(buffer, 0, bytesRead);
                     }
+                    int idProgramaFinal = Integer.parseInt(request.getParameter("id"));
+                    DTODescargasProgramaFinal progfin = gestor.obtenerDescargasProgramaFinalPorId(idProgramaFinal);
+                    gestor.sumarDescargas(progfin);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -62,12 +68,10 @@ public class DescargarPrograma extends HttpServlet {
                     if (outStream != null) {
                         outStream.close();
                     }
-
-                    //HACER +1 METOAJSDKLa hjslbk
                 }
             } else {
                 response.setContentType("text/html");
-                response.getWriter().println("<h3>File " + fileName + " Is Not Present .....!</h3>");
+                response.getWriter().println("<h3>File " + fileName + " is not present!</h3>");
             }
         }       
     }

@@ -1,6 +1,7 @@
 package dtos;
 
 public class DTOListadoProgramasFinales {
+    private int idProgramaFinal;
     private String nombrePrograma;
     private String descripcion;
     private int descargas;
@@ -10,7 +11,8 @@ public class DTOListadoProgramasFinales {
     private String filename;
     private String path;
     
-    public DTOListadoProgramasFinales(String nombrePrograma, String descripcion, int descargas, boolean disponible, String temaPrograma, String nombreAlumno, String filename, String path) {
+    public DTOListadoProgramasFinales(int idProgramaFinal, String nombrePrograma, String descripcion, int descargas, boolean disponible, String temaPrograma, String nombreAlumno, String filename, String path) {
+        this.idProgramaFinal = idProgramaFinal;
         this.nombrePrograma = nombrePrograma;
         this.descripcion = descripcion;
         this.descargas = descargas;
@@ -21,6 +23,12 @@ public class DTOListadoProgramasFinales {
         this.path = path;
     }
 
+    public int getIdProgramaFinal() {
+        return idProgramaFinal;
+    }
+    public void setIdProgramaFinal(int idProgramaFinal) {
+        this.idProgramaFinal = idProgramaFinal;
+    }
     public String getFilename() {
         return filename;
     }
